@@ -35,11 +35,30 @@ class Game {
 	void judge()
     puvlic:
    	void start();
+
+}
+void Game::judge() {
+    int playerSum = player.getHand().sum();
+    int delaerSum = dealer.getHand().sum();
+    if( playerSum > dealerSum) {
+        cout << "You win!";
+    } else if (playerSum > dealerSum) {
+        cout << "Draw.";
+    } else {
+        cout << "You lose.";
+    }
 }
 
+int Hand::Sum() {
+    int sum = 0;
+    for (int card:cards) {
+        sum += card.getValue;
+    }
+}
 class Hand {
 	public:
     array<card> cards;
+    int sum();
 }
 
 class Card {

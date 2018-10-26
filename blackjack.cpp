@@ -1,30 +1,47 @@
 #include <array>
 #include <iostream>
 #include <string>
+#include <list>
+using namespace std;
+class Card {
+	private:
+    std::string suits;
+	int	value;
 
-int main() {
-    std::cout << "test" << std::endl;
-    return 0;
-}
+    public:
+    int getValue(){ return value; };
+};
+
+class Hand {
+	public:
+    list<Card> cards;
+    int getScore(){ return score; };
+    private:
+    int score;
+    void sum();
+};
+
 class Player {
     private:
 	Hand hand;
-	void choice()
+	void choice();
 	public:
-    void draw()
-}
+    void draw();
+    Hand getHand(){ return hand; };
+};
 
 class Dealer {
     private:
 	Hand hand;
 	public:
-    void draw()
-}
+    void draw();
+    Hand getHand(){ return hand; };
+};
 
 class Deck {
 	public: 
-    array<card> cards;
-}
+    list<Card> cards;
+};
 
 class Game {
     private:
@@ -32,40 +49,40 @@ class Game {
 	Dealer dealer;
 	Deck    deck;
 
-	void judge()
-    puvlic:
-   	void start();
+	void judge();
+    public:
+   	void start(){
+           cout << "game start" << endl;
+       };
+};
 
-}
 void Game::judge() {
-    int playerSum = player.getHand().sum();
-    int delaerSum = dealer.getHand().sum();
-    if( playerSum > dealerSum) {
+    int playerScore = player.getHand().getScore();
+    int dealerScore = dealer.getHand().getScore();
+    if( playerScore > dealerScore) {
         cout << "You win!";
-    } else if (playerSum > dealerSum) {
+    } else if (playerScore > dealerScore) {
         cout << "Draw.";
     } else {
         cout << "You lose.";
     }
 }
 
-int Hand::Sum() {
+void Hand::sum() {
     int sum = 0;
-    for (int card:cards) {
-        sum += card.getValue;
+    for (Card card:cards) {
+        sum += card.getValue();
+        if (card.getValue()){}
     }
-}
-class Hand {
-	public:
-    array<card> cards;
-    int sum();
+    score = sum;
 }
 
-class Card {
-	private:
-    std::string suits;
-	int	value;
 
-    public:
-    int getvalue(){ return value; };
+
+
+int main() {
+    std::cout << "test" << std::endl;
+    Game game;
+    game.start();
+    return 0;
 }

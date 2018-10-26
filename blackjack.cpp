@@ -1,8 +1,12 @@
 #include <array>
 #include <iostream>
 #include <string>
-#include <list>
+#include <vector>
 #include <cstdlib>
+#include <algorithm>
+#include <random>
+#include <numeric>
+#include <iterator>
 using namespace std;
 class Card {
 	private:
@@ -33,7 +37,7 @@ class Card {
 
 class Hand {
 	public:
-    list<Card> cards;
+    vector<Card> cards;
     int getScore(){ return score; };
     private:
     int score;
@@ -59,7 +63,7 @@ class Dealer {
 
 class Deck {
 	public: 
-    list<Card> cards;
+    vector<Card> cards;
     Deck() {
         array<string, 4> suits = { {"heart", "diamond", "club", "spade"} };
         for (string suit: suits) {
@@ -73,6 +77,11 @@ class Deck {
             cout << card.getSuit() << card.getRank() << endl;
         }
     }
+    void cut() {
+        random_device seed_gen{};
+        mt19937 random_engine(seed_gen());
+        shuffle(begin(cards), end(cards), random_engine);
+    }
 };
 
 class Game {
@@ -85,6 +94,9 @@ class Game {
     public:
    	void start(){
            cout << "game start" << endl;
+           deck.show();
+           deck.cut();
+           cout << "Cut" << endl;
            deck.show();
        };
 };

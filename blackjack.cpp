@@ -5,11 +5,28 @@
 using namespace std;
 class Card {
 	private:
-    std::string suits;
-	int	value;
-
+    std::string suit;
+	char	rank;
     public:
-    int getValue(){ return value; };
+    Card(string s, int r) {
+        suit = suit;
+        switch(r) {
+            case 1: rank ='A'; break;
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 9: 
+            case 10: rank = to_string(r)[0]; break;
+            case 11: rank = 'J'; break;
+            case 12: rank ='Q'; break;
+            case 13: rank ='K'; break;
+        }
+    };
+    char getRank(){ return rank; };
 };
 
 class Hand {
@@ -41,6 +58,14 @@ class Dealer {
 class Deck {
 	public: 
     list<Card> cards;
+    Deck() {
+        array<string, 4> suits = { {"heart", "diamond", "club", "spade"} };
+        for (string suit: suits) {
+            for (int rank = 1; rank <= 13; rank++) {
+                cards.push_back(Card(suit, rank));
+            }
+        }
+    }
 };
 
 class Game {
@@ -71,13 +96,11 @@ void Game::judge() {
 void Hand::sum() {
     int sum = 0;
     for (Card card:cards) {
-        sum += card.getValue();
-        if (card.getValue()){}
+        sum += card.getRank();
+        if (card.getRank()){}
     }
     score = sum;
 }
-
-
 
 
 int main() {

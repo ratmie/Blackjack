@@ -39,26 +39,15 @@ class Hand {
 	public:
 	vector<Card> cards;
 	int getScore(){ return score; };
+	void showAll() {
+		for(Card card: cards) {
+			cout << card.getSuit() << " " << card.getRank() << ", ";
+		}
+		cout << endl;
+	}
+	void sum();
 	private:
 	int score;
-	void sum();
-};
-
-class Player {
-	private:
-	Hand hand;
-	void choice();
-	public:
-	void draw();
-	Hand getHand(){ return hand; };
-};
-
-class Dealer {
-	private:
-	Hand hand;
-	public:
-	void draw();
-	Hand getHand(){ return hand; };
 };
 
 class Deck {
@@ -83,6 +72,23 @@ class Deck {
 		shuffle(begin(cards), end(cards), random_engine);
 	}
 };
+class Player {
+	private:
+	Hand hand;
+	void choice();
+	public:
+	void draw();
+	Hand getHand(){ return hand; };
+	void hit(Deck& deck);
+};
+
+class Dealer {
+	private:
+	Hand hand;
+	public:
+	void draw();
+	Hand getHand(){ return hand; };
+};
 
 class Game {
 	private:
@@ -94,10 +100,15 @@ class Game {
 	public:
    	void start(){
 		   cout << "game start" << endl;
-		   deck.show();
+		   //deck.show();
 		   deck.cut();
-		   cout << "Cut" << endl;
-		   deck.show();
+		   //cout << "Cut" << endl;
+		   //deck.show();
+		   player.hit(deck);
+		   player.hit(deck);
+   		   player.hit(deck);
+		   player.getHand().showAll();
+		   cout << player.getHand().getScore() << endl;
 	   };
 };
 
@@ -136,6 +147,15 @@ void Hand::sum() {
 	score = sum;
 	cout << score << endl;
 }
+
+void Player::hit(Deck& deck) {
+	hand.cards.push_back(deck.cards.back());
+	deck.cards.pop_back();
+	hand.sum();
+	if(hand.getScore() > 21) {
+	    cout << "Bust" << endl;
+	}
+};
 
 int main() {
 	std::cout << "test" << std::endl;

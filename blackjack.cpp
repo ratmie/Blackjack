@@ -88,6 +88,7 @@ class Dealer {
 	public:
 	void draw();
 	Hand getHand(){ return hand; };
+	void hit(Deck& deck);
 };
 
 class Game {
@@ -99,17 +100,29 @@ class Game {
 	void judge();
 	public:
    	void start(){
-		   cout << "game start" << endl;
-		   //deck.show();
-		   deck.cut();
-		   //cout << "Cut" << endl;
-		   //deck.show();
-		   player.hit(deck);
-		   player.hit(deck);
-   		   player.hit(deck);
-		   player.getHand().showAll();
-		   cout << player.getHand().getScore() << endl;
-	   };
+		cout << "game start" << endl;
+		//deck.show();
+		deck.cut();
+		//cout << "Cut" << endl;
+		//deck.show();
+		dealer.hit(deck);
+		cout << "Dealer:";
+		dealer.getHand().showAll();
+		dealer.hit(deck);
+		player.hit(deck);
+		player.hit(deck);
+		player.getHand().showAll();
+		cout << "yourScore" << player.getHand().getScore() << endl;
+		cout << "\"hit\" or \"stand\"" << endl;
+		string key;
+	
+		while (cin >> key) {
+			if (key != "h") break;
+	   		player.hit(deck);
+			player.getHand().showAll();
+            cout << player.getHand().getScore() << endl;
+		}
+	};
 };
 
 void Game::judge() {
@@ -145,7 +158,7 @@ void Hand::sum() {
 		numberOfA--;
 	}
 	score = sum;
-	cout << score << endl;
+	//cout << "score:" << score << endl;
 }
 
 void Player::hit(Deck& deck) {
@@ -157,6 +170,14 @@ void Player::hit(Deck& deck) {
 	}
 };
 
+void Dealer::hit(Deck& deck) {
+	hand.cards.push_back(deck.cards.back());
+	deck.cards.pop_back();
+	hand.sum();
+	if(hand.getScore() > 21) {
+	    cout << "Bust" << endl;
+	}
+};
 int main() {
 	std::cout << "test" << std::endl;
 	Game game;

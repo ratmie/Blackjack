@@ -8,10 +8,16 @@
 #include <numeric>
 #include <iterator>
 using namespace std;
+enum Side {
+	frot,
+	back
+};
+
 class Card {
 	private:
 	string suit;
 	string	rank;
+	Side side;
 	public:
 	Card(string s, int r) {
 		suit = s;
@@ -33,6 +39,8 @@ class Card {
 	};
 	string getSuit(){ return suit; };
 	string getRank(){ return rank; };
+	Side getSide() { return side; };
+	void setSide(Side data) { side = data; };
 };
 
 class Hand {
@@ -117,10 +125,18 @@ class Game {
 		string key;
 	
 		while (cin >> key) {
-			if (key != "h") break;
-	   		player.hit(deck);
-			player.getHand().showAll();
-            cout << player.getHand().getScore() << endl;
+			if (key == "c") break;
+			if (key == "h") {
+				player.hit(deck);
+				player.getHand().showAll();
+				cout << player.getHand().getScore() << endl;
+			}
+			if (key == "s") {
+				while (dealer.getHand().getScore() < 16) {
+					dealer.hit(deck);
+				}
+				judge();
+			}
 		}
 	};
 };
@@ -129,11 +145,11 @@ void Game::judge() {
 	int playerScore = player.getHand().getScore();
 	int dealerScore = dealer.getHand().getScore();
 	if( playerScore > dealerScore) {
-		cout << "You win!";
-	} else if (playerScore > dealerScore) {
-		cout << "Draw.";
+		cout << "You win!" << endl;
+	} else if (playerScore == dealerScore) {
+		cout << "Draw." << endl;
 	} else {
-		cout << "You lose.";
+		cout << "You lose." << endl;
 	}
 }
 
@@ -166,7 +182,8 @@ void Player::hit(Deck& deck) {
 	deck.cards.pop_back();
 	hand.sum();
 	if(hand.getScore() > 21) {
-	    cout << "Bust" << endl;
+	    cout << "You Bust" << endl;
+		hand.showAll();
 	}
 };
 
@@ -175,7 +192,8 @@ void Dealer::hit(Deck& deck) {
 	deck.cards.pop_back();
 	hand.sum();
 	if(hand.getScore() > 21) {
-	    cout << "Bust" << endl;
+	    cout << "Dealer Bust" << endl;
+		hand.showAll();
 	}
 };
 int main() {

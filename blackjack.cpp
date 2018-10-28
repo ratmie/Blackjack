@@ -83,7 +83,6 @@ class Deck {
 class Player {
 	private:
 	Hand hand;
-	void choice();
 	public:
 	void draw();
 	Hand getHand(){ return hand; };
@@ -125,17 +124,19 @@ class Game {
 		string key;
 	
 		while (cin >> key) {
-			if (key == "c") break;
 			if (key == "h") {
 				player.hit(deck);
 				player.getHand().showAll();
 				cout << player.getHand().getScore() << endl;
 			}
-			if (key == "s") {
+			else if (key == "s") {
 				while (dealer.getHand().getScore() < 16) {
 					dealer.hit(deck);
 				}
 				judge();
+			}
+			else {
+				break;
 			}
 		}
 	};
@@ -185,6 +186,7 @@ void Player::hit(Deck& deck) {
 	    cout << "You Bust" << endl;
 		hand.showAll();
 	}
+
 };
 
 void Dealer::hit(Deck& deck) {
@@ -196,9 +198,19 @@ void Dealer::hit(Deck& deck) {
 		hand.showAll();
 	}
 };
+
+bool askContinue() {
+	char gameContinue;
+	cout << "Next game ? press Y or N" << endl;
+	cin >> gameContinue;
+	return gameContinue == 'y';
+}
 int main() {
 	std::cout << "test" << std::endl;
-	Game game;
-	game.start();
+
+	for (bool gameContinue = true; gameContinue; askContinue()) {
+		Game game;
+		game.start();
+	}
 	return 0;
 }

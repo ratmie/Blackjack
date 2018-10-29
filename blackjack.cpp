@@ -146,6 +146,7 @@ public:
 					if (checkBust(dealer)) {
 						break;
 					}
+					cout << "\"hit\" or \"stand\"" << endl;
 				}
 				judge();
 				break;
